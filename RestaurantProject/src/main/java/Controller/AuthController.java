@@ -97,6 +97,7 @@ public class AuthController extends HttpServlet {
 		}
 		else if(action.equals("logout")) {
 			request.getSession().removeAttribute("name");
+			request.getSession().removeAttribute("user");
 			RequestDispatcher rs = getServletContext().getRequestDispatcher("/WelcomeUser.jsp");
 			rs.forward(request, response);
 		}

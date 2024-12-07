@@ -16,7 +16,7 @@ public class UserDAO {
 	public boolean checkLogin(String username, String password_) {
 		int count =0 ;
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -63,7 +63,7 @@ public class UserDAO {
 			return false;
 		}
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String username = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -85,7 +85,7 @@ public class UserDAO {
 	public List<User> getAllUser(){
 		List<User> list = new ArrayList<User>();
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -128,7 +128,7 @@ public class UserDAO {
 	public User getUserById(long id){
 		User User = new User();
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -169,7 +169,7 @@ public class UserDAO {
 	public User getUserByUsername(String username){
 		User User = new User();
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -209,7 +209,7 @@ public class UserDAO {
 	
 	public boolean deleteUser(long id) {
 		String query = "DELETE FROM users WHERE id = ?";
-	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cuoikiltm", "root", "");
+	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant", "root", "");
 	         PreparedStatement pstmt = conn.prepareStatement(query)) {
 
 	        pstmt.setLong(1, id);
@@ -225,7 +225,7 @@ public class UserDAO {
 	
 	public boolean updateUser(User User) {
 		String query = "UPDATE users SET fullName=?,age=?,role_id=?,address=?,gender=?,phonenumber=? WHERE id = ?";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cuoikiltm", "root", "");
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant", "root", "");
 		    PreparedStatement pstmt = conn.prepareStatement(query)) {
 		    pstmt.setString(1, User.getFullName());
 		    pstmt.setInt(2, User.getAge());

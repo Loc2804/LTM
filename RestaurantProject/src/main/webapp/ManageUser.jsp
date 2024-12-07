@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Page</title>
+<title>Manage User</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -73,43 +73,57 @@
     .group-btn{
     	margin-top:10px;
     }
+    .welcome-user{
+    	display: flex;
+    	gap:100px;
+    }
+    .welcome-user span{
+    	margin-top:10px;
+    	font-size: 18px;
+    	color: white;
+    }
 </style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="links">
-            <a href="WelcomeUser.jsp">Home Page</a>
-            <a href="WelcomeAdmin.jsp">Admin Page</a>
-        </div>
-        <%
+		<%
         	User user = (User) session.getAttribute("user");
         	if(user == null || user.getRole() == null){
         %>
+      <div class="navbar">
+       <div class="links">
+           <a href="WelcomeUser.jsp">Home Page</a>
+           <a href="WelcomeAdmin.jsp">Admin Page</a>
+       </div>
         <div class="group-btn">
             <a href="Login.jsp">Đăng nhập</a>
             <a href="Register.jsp">Đăng ký</a>
         </div>
+     </div>
+     <div class="content">
+       	<h1>Bạn cần đăng nhập để thực hiện chức năng này</h1>
+   	</div>
         <% }
         	else{
         %>
-        <form action="Authcontroller" method="post">
-        	<div>
-            	<button class="btn-logout" type="submit">Đăng xuất</button>
-            	<input  type="hidden" value="logout" name="action">
-        	</div>
-        </form>
+        <div class="navbar">
+	       <div class="links">
+	           <a href="WelcomeUser.jsp">Home Page</a>
+	           <a href="WelcomeAdmin.jsp">Admin Page</a>
+	       </div>
+	        <form action="Authcontroller" method="post">
+	        	<div class="welcome-user">
+	        		<span>Xin chào, <%=user.getFullName() %></span>
+	            	<button class="btn-logout" type="submit">Đăng xuất</button>
+	            	<input  type="hidden" value="logout" name="action">
+	        	</div>
+	        </form>
+        </div>
+        <div class="content">
+       		<h1>Manage User</h1>
+       		<a href="ManageRole.jsp">Thêm mới</a>
+   		</div>
         <%
         	}
         %>
-    </div>
-
-      <div class="content">
-       	<h1>Admin Page</h1>
-       	<a href="ManageRole.jsp">Manage Role</a>
-       	<a href="ManageUser.jsp">Manage User</a>
-       	<a href="ManageStatus.jsp">Manage Status</a>
-   	</div>
-     
-    
 </body>
 </html>

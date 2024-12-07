@@ -33,7 +33,7 @@ public class RoleDAO {
 			return false;
 		}
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -55,7 +55,7 @@ public class RoleDAO {
 	public List<Role> getAllRole(){
 		List<Role> list = new ArrayList<Role>();
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -87,7 +87,7 @@ public class RoleDAO {
 	public Role getRoleById(long id){
 		Role role = new Role();
 		try {
-	        String url = "jdbc:mysql://localhost:3306/cuoikiltm"; 
+	        String url = "jdbc:mysql://localhost:3306/restaurant"; 
 	        String user = "root";  
 	        String password = ""; 
 	        Class.forName("com.mysql.jdbc.Driver");
@@ -116,7 +116,7 @@ public class RoleDAO {
 	
 	public boolean deleteRole(long id) {
 		String query = "DELETE FROM Role WHERE id = ?";
-	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cuoikiltm", "root", "");
+	    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant", "root", "");
 	         PreparedStatement pstmt = conn.prepareStatement(query)) {
 
 	        pstmt.setLong(1, id);
@@ -131,7 +131,7 @@ public class RoleDAO {
 	
 	public boolean updateRole(Role Role) {
 		String query = "UPDATE Role SET name=? WHERE id = ?";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/cuoikiltm", "root", "");
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurant", "root", "");
 		     PreparedStatement pstmt = conn.prepareStatement(query)) {
 		    pstmt.setString(1, Role.getName());
 		    pstmt.setLong(2, Role.getId());

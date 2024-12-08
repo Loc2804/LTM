@@ -47,8 +47,8 @@ public class AuthController extends HttpServlet {
 		String phonenumber = request.getParameter("phonenumber");
 		String address = request.getParameter("address");
 		String gender = request.getParameter("gender");
-		int age = Integer.parseInt(request.getParameter("age"));
-		String action = request.getParameter("action");
+		int age = 0;
+		String action = request.getParameter("action") != null ? request.getParameter("action") : "";
 		
 		UserBO userBO = new UserBO();
 		RoleBO roleBO = new RoleBO();
@@ -67,7 +67,7 @@ public class AuthController extends HttpServlet {
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/WelcomeAdmin.jsp");
 					rs.forward(request, response);
 				}
-				if(user.getRole().getId() == 2) {
+				else if(user.getRole().getId() == 2) {
 					RequestDispatcher rs = getServletContext().getRequestDispatcher("/WelcomeUser.jsp");
 					rs.forward(request, response);
 				}
@@ -79,6 +79,7 @@ public class AuthController extends HttpServlet {
 			}
 		}
 		else if(action.equals("signup")) {
+			age = Integer.parseInt(request.getParameter("age"));
 			User user = new User();
 			user.setFullName(fullName); user.setGender(gender);
 			user.setAddress(address); user.setPhonenumber(phonenumber);
@@ -90,7 +91,7 @@ public class AuthController extends HttpServlet {
 				rs.forward(request, response);
 			}
 			else {
-				RequestDispatcher rs = getServletContext().getRequestDispatcher("/Regisster.jsp");
+				RequestDispatcher rs = getServletContext().getRequestDispatcher("/Register.jsp");
 				request.setAttribute("errorMessage", "Check your information again! Maybe existed username or empty field.");
 				rs.forward(request, response);
 			}

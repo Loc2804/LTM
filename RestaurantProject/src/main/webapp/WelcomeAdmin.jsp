@@ -73,6 +73,16 @@
     .group-btn{
     	margin-top:10px;
     }
+    .welcome-user{
+    	display: flex;
+    	gap:20px;
+    }
+    .welcome-user span{
+	color: white;
+	margin-top:7px;
+	font-size: 20px;
+}
+    
 </style>
 </head>
 <body>
@@ -92,11 +102,12 @@
         <% }
         	else{
         %>
-        <form action="Authcontroller" method="post">
-        	<div>
-            	<button class="btn-logout" type="submit">Đăng xuất</button>
-            	<input  type="hidden" value="logout" name="action">
-        	</div>
+        <form action="AuthController" method="post">
+        	<div class="welcome-user">
+	        		<span>Xin chào, <%=user.getFullName() %></span>
+	            	<button class="btn-logout" type="submit">Đăng xuất</button>
+	            	<input  type="hidden" value="logout" name="action">
+	        </div>
         </form>
         <%
         	}

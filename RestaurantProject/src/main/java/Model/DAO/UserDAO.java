@@ -69,7 +69,7 @@ public class UserDAO {
 	        Class.forName("com.mysql.jdbc.Driver");
 	        Connection conn = DriverManager.getConnection(url, username, password);
 	        Statement stmt = conn.createStatement();
-	        String query = "Insert into users(username,password,fullName,address,phonenumber,gender,age,role_id) values('"+user.getUsername()+"','"+user.getPassword()+"','"+user.getFullName()+"','"+user.getAddress()+"','"+user.getPhonenumber()+"','"+user.getAge()+"','"+user.getGender()+"','"+user.getRole().getId()+"')";
+	        String query = "Insert into users(username,password,fullName,address,phonenumber,gender,age,role_id) values('"+user.getUsername()+"','"+user.getPassword()+"','"+user.getFullName()+"','"+user.getAddress()+"','"+user.getPhonenumber()+"','"+user.getGender()+"','"+user.getAge()+"','"+user.getRole().getId()+"')";
 	        int result = stmt.executeUpdate(query);
             if (result > 0) {
                 return true;
@@ -236,6 +236,7 @@ public class UserDAO {
 		    pstmt.setLong(7, User.getId());
 		   
 		    int result = pstmt.executeUpdate();
+		   
 		    return result > 0;
 		} catch (SQLException e) {
 		    System.out.println("Lỗi: " + e.getMessage());

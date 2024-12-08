@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Home Page</title>
+<title>Order Table</title>
 <style type="text/css">
 	 body {
         font-family: Arial, sans-serif;
@@ -89,7 +89,7 @@
         	if(user == null || user.getRole() == null){
         %>
       <div class="navbar">
-       <div class="links">
+      <div class="links">
            <a href="MainMenu.jsp">Menu</a>
            <a href="OrderTables.jsp">Order Table</a>
        </div>
@@ -98,14 +98,17 @@
             <a href="Register.jsp">Đăng ký</a>
         </div>
      </div>
+     <div class="content">
+       	<h1>Bạn cần đăng nhập để thực hiện chức năng này</h1>
+   	</div>
         <% }
         	else{
         %>
         <div class="navbar">
-	       <div class="links">
-	          	<a href="MainMenu.jsp">Menu</a>
-           		<a href="OrderTables.jsp">Order Table</a>
-	       </div>
+	      <div class="links">
+           <a href="MainMenu.jsp">Menu</a>
+           <a href="OrderTables.jsp">Order Table</a>
+       	</div>
 	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">
 	        		<span>Xin chào, <%=user.getFullName() %></span>
@@ -114,8 +117,8 @@
 	        	</div>
 	        </form>
         </div>
-       <%
+        <%
         	}
-       %>
+        %>
 </body>
 </html>

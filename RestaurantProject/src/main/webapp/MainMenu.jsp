@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Home Page</title>
+<title>Menu</title>
 <style type="text/css">
 	 body {
         font-family: Arial, sans-serif;
@@ -60,11 +60,11 @@
         border: none; /* Bỏ viền */
         border-radius: 5px; /* Bo góc */
         font-size: 18px; /* Kích thước chữ */
-        cursor: pointer; /* Thay đổi con trỏ khi hover */
+        cursor: pointer;
     }
 
     .btn-logout:hover {
-        background-color: #0056b3; /* Màu nền xanh đậm hơn khi hover */
+        background-color: #0056b3; 
     }
 
     .btn-logout:focus {
@@ -89,7 +89,7 @@
         	if(user == null || user.getRole() == null){
         %>
       <div class="navbar">
-       <div class="links">
+      <div class="links">
            <a href="MainMenu.jsp">Menu</a>
            <a href="OrderTables.jsp">Order Table</a>
        </div>
@@ -102,10 +102,10 @@
         	else{
         %>
         <div class="navbar">
-	       <div class="links">
-	          	<a href="MainMenu.jsp">Menu</a>
-           		<a href="OrderTables.jsp">Order Table</a>
-	       </div>
+	      <div class="links">
+           <a href="MainMenu.jsp">Menu</a>
+           <a href="OrderTables.jsp">Order Table</a>
+       	</div>
 	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">
 	        		<span>Xin chào, <%=user.getFullName() %></span>
@@ -114,8 +114,8 @@
 	        	</div>
 	        </form>
         </div>
-       <%
+        <%
         	}
-       %>
+        %>
 </body>
 </html>

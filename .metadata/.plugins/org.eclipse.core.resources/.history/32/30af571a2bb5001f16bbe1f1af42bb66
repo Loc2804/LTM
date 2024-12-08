@@ -1,0 +1,226 @@
+<%@page import="java.util.List"%>
+<%@page import="Model.BEAN.User"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage User</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    h1{
+    	text-align: center;
+    }
+    .navbar {
+        background-color: #007BFF; /* Màu xanh chủ đạo */
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+    .navbar a:hover {
+        background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
+        border-radius: 4px;
+    }
+    .links {
+        display: flex;
+        gap: 20px;
+    }
+    .content {
+        margin: 20px;
+    }
+    .content a {
+        display: inline-block;
+        background-color: #007BFF; /* Màu nền xanh chủ đạo */
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin: 5px 0;
+        font-size: 18px;
+    }
+    .content a:hover {
+        background-color: #0056b3; /* Màu nền xanh đậm hơn khi hover */
+    }
+    .btn-logout {
+        background-color: #007BFF; /* Màu nền xanh chủ đạo */
+        color: white; /* Màu chữ */
+        text-decoration: none;
+        padding: 10px 20px; /* Khoảng cách bên trong */
+        border: none; /* Bỏ viền */
+        border-radius: 5px; /* Bo góc */
+        font-size: 18px; /* Kích thước chữ */
+        cursor: pointer; /* Thay đổi con trỏ khi hover */
+    }
+
+    .btn-logout:hover {
+        background-color: #0056b3; /* Màu nền xanh đậm hơn khi hover */
+    }
+
+    .btn-logout:focus {
+        outline: none; /* Bỏ viền focus mặc định */
+    }
+    .group-btn{
+    	margin-top:10px;
+    }
+    .welcome-user{
+    	display: flex;
+    	gap:100px;
+    }
+    .welcome-user span{
+    	margin-top:10px;
+    	font-size: 18px;
+    	color: white;
+    }
+</style>
+</head>
+<body>
+		<%
+        	User user = (User) session.getAttribute("user");
+        	if(user == null || user.getRole() == null){
+        %>
+      <div class="navbar">
+       <div class="links">
+           <a href="WelcomeUser.jsp">Home Page</a>
+           <a href="WelcomeAdmin.jsp">Admin Page</a>
+       </div>
+        <div class="group-btn">
+            <a href="Login.jsp">Đăng nhập</a>
+            <a href="Register.jsp">Đăng ký</a>
+        </div>
+     </div>
+     <div class="content">
+       	<h1>Bạn cần đăng nhập để thực hiện chức năng này</h1>
+   	</div>
+        <% }
+        	else{
+        %>
+        <div class="navbar">
+	       <div class="links">
+	           <a href="WelcomeUser.jsp">Home Page</a>
+	           <a href="WelcomeAdmin.jsp">Admin Page</a>
+	       </div>
+	        <form action="Authcontroller" method="post">
+	        	<div class="welcome-user">
+	        		<span>Xin chào, <%=user.getFullName() %></span>
+	            	<button class="btn-logout" type="submit">Đăng xuất</button>
+	            	<input  type="hidden" value="logout" name="action">
+	        	</div>
+	        </form>
+        </div>
+        <div class="content">
+       		<h1>Manage User</h1>
+   		</div>
+   		<div class="form-container">
+        <h2>Thông Tin Nhân Viên</h2>
+        
+        <!-- Form cho cả Thêm mới và Cập nhật -->
+        <form action="NhanSuController" method="post">
+            <label for="idnv">ID Nhân Viên:</label><br>
+            <input type="text" id="idnv" name="idnv" placeholder="Nhập ID nhân viên" required onblur="checkID()"><br><br>
+
+            <label for="hoten">Họ Tên:</label><br>
+            <input type="text" id="hoten" name="hoten" placeholder="Nhập họ tên" required><br><br>
+
+            <label for="mapb" id="mapb" name="mapb">Mã Phòng Ban:</label><br>
+            <select name="idpb" id="" required>
+            <%
+				List<PhongBan> listPB = (List<PhongBan>) session.getAttribute("listPB");
+			    if (listPB != null) {
+			        for (PhongBan pb : listPB) {
+			%>
+                <option value="<%=pb.getIDPB() %>"><%=pb.getTenPB() %></option>
+			<%
+					}
+			    }
+			%>
+            </select><br><br>
+
+            <label for="diachi">Địa Chỉ:</label><br>
+            <input type="text" id="diachi" name="diachi" placeholder="Nhập địa chỉ" required><br><br>
+
+            <button type="submit" class="btn btn-add" name="action" value="add">Thêm Mới</button>
+
+            <button type="submit" class="btn btn-update" name="action" value="update">Cập Nhật</button>
+            <button type="reset" class="btn btn-reset" onclick="resetForm()">Reset</button>
+        </form>
+    </div>
+   		<h2>List user</h2>
+    <table class="table-container">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full name</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Phone number</th>
+                <th>Address</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+                // Lấy danh sách nhân viên từ session
+                List<User> list = (List<User>) session.getAttribute("listUser");
+                if (list != null) {
+                    for (User u : list) {
+            %>
+            <tr>
+                <td><%= u.getId() %></td>
+                <td><%= u.getUsername() %></td>
+                <td><%= u.getFullName() %></td>
+                <td><%= u.getGender() %></td>
+                <td><%= u.getAge() %></td>
+                <td><%= u.getPhonenumber() %></td>
+                <td><%= u.getAddress() %></td>
+                <td><%= u.getRole().getName() %></td>
+                <td>
+                	<button class="action-icons edit"  onclick="fillInfo('<%= ns.getIDNV() %>', '<%= ns.getHoTen() %>', '<%= ns.getIDPB() %>', '<%= ns.getDiaChi() %>')"><i class="fas fa-pencil-alt"></i></button>
+                	<form action="NhanSuController" method="post">
+                	    <input type="hidden" name="idnv_de" value="<%= u.getId() %>"> 
+                		<button type="submit" value="delete" name="action" class="action-icons delete"><i class="fas fa-trash-alt"></i></button>
+                	</form>
+                </td>
+            </tr>
+            <% 
+                    }
+                } else {
+            %>
+            <tr>
+                <td colspan="9">Empty data</td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <a href="WelcomeAdmin.jsp"><button class="btn btn-nhansu" >Return</button></a>
+	<script type="text/javascript">
+		function fillInfo(id,name,pb,address) {
+			 document.querySelector('input[name="idnv"]').value = id;
+			    document.querySelector('input[name="hoten"]').value = name;
+			    document.querySelector('select[name="idpb"]').value = pb;
+			    document.querySelector('input[name="diachi"]').value = address;
+			    document.querySelector('input[name="idnv"]').readOnly = true;
+		}
+		function resetForm() {
+		    document.querySelector('input[name="idnv"]').readOnly = false;
+		}
+
+	</script>
+        <%
+        	}
+        %>
+</body>
+</html>

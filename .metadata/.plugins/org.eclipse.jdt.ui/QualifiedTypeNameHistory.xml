@@ -9,4 +9,5 @@
     <fullyQualifiedTypeName name="java.lang.Long"/>
     <fullyQualifiedTypeName name="java.io.Console"/>
     <fullyQualifiedTypeName name="Model.BEAN.Role"/>
+    <fullyQualifiedTypeName name="Model.BO.TablesBO"/>
 </qualifiedTypeNameHistroy>

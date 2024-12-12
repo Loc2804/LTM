@@ -84,7 +84,7 @@
 </style>
 </head>
 <body>
-	<%
+		<%
         	User user = (User) session.getAttribute("user");
         	if(user == null || user.getRole() == null){
         %>

@@ -1,3 +1,4 @@
+<%@page import="Model.BEAN.Tables"%>
 <%@page import="Model.BEAN.Role"%>
 <%@page import="java.util.List"%>
 <%@page import="Model.BEAN.User"%>
@@ -181,6 +182,7 @@ label {
 		<%
         	User user = (User) session.getAttribute("user");
 			List<Role> roles = (List<Role>) session.getAttribute("listRole");
+			List<Tables> tables = (List<Tables>) session.getAttribute("listTable");
         	if(user == null || user.getRole() == null){
         %>
       <div class="navbar">
@@ -382,8 +384,6 @@ label {
 		function setId(id){
 			document.querySelector('input[name="deleteId"]').value = id;
 		}
-		
-
 	</script>
         <%
         	}

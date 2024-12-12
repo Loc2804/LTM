@@ -11,6 +11,7 @@ import java.io.IOException;
 import Model.BEAN.User;
 import Model.BO.RoleBO;
 import Model.BO.StatusBO;
+import Model.BO.TablesBO;
 import Model.BO.UserBO;
 
 /**
@@ -53,7 +54,7 @@ public class AuthController extends HttpServlet {
 		UserBO userBO = new UserBO();
 		RoleBO roleBO = new RoleBO();
 		StatusBO statusBO = new StatusBO();
-		
+		TablesBO tableBO = new TablesBO();
 		if(action.equals("login")) {
 			if(userBO.checkLogin(username, password)) {
 				String name = userBO.getUserByUsername(username).getFullName();
@@ -61,6 +62,7 @@ public class AuthController extends HttpServlet {
 				request.getSession().setAttribute("listUser", userBO.getAllUser());
 				request.getSession().setAttribute("listRole", roleBO.getAllRole());
 				request.getSession().setAttribute("listStatus", statusBO.getAllStatus());
+				request.getSession().setAttribute("listTable", tableBO.getAllTables());
 				request.getSession().setAttribute("name",name);
 				request.getSession().setAttribute("user",user);
 				if(user.getRole().getId() == 1) {

@@ -119,6 +119,8 @@
        	<a href="ManageRole.jsp">Manage Role</a>
        	<a href="ManageUser.jsp">Manage User</a>
        	<a href="ManageStatus.jsp">Manage Status</a>
+       	<a href="Index_booking.jsp">Manage Booking</a>
+       	<a href="Index_Tables.jsp">Manage Table</a>
    	</div>
      
     

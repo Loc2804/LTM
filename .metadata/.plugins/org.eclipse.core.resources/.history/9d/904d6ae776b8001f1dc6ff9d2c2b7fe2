@@ -1,3 +1,5 @@
+<%@page import="Model.BEAN.Tables"%>
+<%@page import="Model.BEAN.Role"%>
 <%@page import="java.util.List"%>
 <%@page import="Model.BEAN.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -179,6 +181,8 @@ label {
 <body>
 		<%
         	User user = (User) session.getAttribute("user");
+			List<Role> roles = (List<Role>) session.getAttribute("listRole");
+			List<Tables> tables = (List<Tables>) session.getAttribute("listTable");
         	if(user == null || user.getRole() == null){
         %>
       <div class="navbar">
@@ -202,7 +206,7 @@ label {
 	           <a href="WelcomeUser.jsp">Home Page</a>
 	           <a href="WelcomeAdmin.jsp">Admin Page</a>
 	       </div>
-	        <form action="Authcontroller" method="post">
+	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">
 	        		<span>Xin chào, <%=user.getFullName() %></span>
 	            	<button class="btn-logout" type="submit">Đăng xuất</button>
@@ -214,10 +218,10 @@ label {
        		<h1>Manage User</h1>
    		</div>
    		<div class="form-container">
-          <form action="AuthController" method="POST">
+          <form action="UserController" method="POST">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" class="input-field" placeholder="Enter your username" required>
-
+            <input type="text" id="username" name="username" class="input-field" placeholder="Enter your username" required onblur="checkUsername()">
+			<input type="hidden" name="id_up"> 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" class="input-field" placeholder="Enter your password" required>
 
@@ -243,20 +247,58 @@ label {
 			<label for="role">Role:</label>
             <select name="role" id="role">
             	<option value="" selected="selected" hidden></option>
-            	<option value="1">Admin</option>
-            	<option value="2">User</option>
+            	<%
+            		if(roles != null){
+            			for(Role role: roles){
+            	%>
+            				<option value="<%=role.getId() %>"><%=role.getName() %></option>
+            	<%
+            			}
+            		}
+            		else{
+            	%>
+            		<option value="1">Admin</option>
+            		<option value="2">User</option> 
+            	<%
+            		}
+            	%>
+            	
             </select>
-			<input type="hidden" name="action" value="signup" class="input-field" required>
 			<button type="submit" class="btn btn-add" name="action" value="add">Thêm Mới</button>
 
             <button type="submit" class="btn btn-update" name="action" value="update">Cập Nhật</button>
             <button type="reset" class="btn btn-reset" onclick="resetForm()">Reset</button>
         </form>
-
-           
-        
     </div>
-   		<h2>List user</h2>
+    <%
+	    List<User> list = (List<User>) session.getAttribute("listUser");
+	    StringBuilder str = new StringBuilder();
+	    str.append("[");
+	    for (int i = 0; i < list.size(); i++) {
+	        str.append("\"").append(list.get(i).getUsername()).append("\"");
+	        if (i < list.size() - 1) {
+	            str.append(", ");
+	        }
+	    }
+	    str.append("]");
+    %>
+    <script type="text/javascript">
+    	console.log(<%= str.toString() %>);
+	    var existingUsername = <%= str.toString() %>;
+	    function checkUsername() {
+	    	
+	        var idnv = document.getElementById('username').value;
+	
+	        if (existingUsername.includes(idnv)) {
+	            alert("Username existed !");
+	
+	            document.getElementById('username').value = "";
+	            return false;  
+	        }
+	        return true; 
+	    }
+	</script>
+   	<h2>List user</h2>
     <table class="table-container">
         <thead>
             <tr>
@@ -274,7 +316,6 @@ label {
         <tbody>
             <% 
                 // Lấy danh sách nhân viên từ session
-                List<User> list = (List<User>) session.getAttribute("listUser");
                 if (list != null) {
                     for (User u : list) {
             %>
@@ -290,13 +331,15 @@ label {
                 <td>
                 	<div class="icon-action">
                 		<button class="action-icons edit"  
-                			onclick="fillInfo('<%=u.getUsername() %>,'<%=u.getPassword() %>',<%=u.getFullName() %>,<%=u.getPhonenumber() %>','<%=u.getAddress() %>','<%=u.getAge() %>')"
+                			onclick="fillInfo('<%= u.getId() %>','<%=u.getUsername() %>','<%=u.getPassword() %>','<%=u.getFullName() %>',
+                			'<%=u.getPhonenumber() %>','<%=u.getAddress() %>','<%=u.getAge() %>',
+                			'<%=u.getGender() %>','<%=u.getRole().getId() %>')"
                 		>
                 			<i class="fas fa-pencil-alt"></i>
                 		</button>
                 		<form action="UserController" method="post">
-                	    	<input type="hidden" name="idnv_de" value="<%= u.getId() %>"> 
-                			<button type="submit" value="delete" name="action" class="action-icons delete"><i class="fas fa-trash-alt"></i></button>
+                	    	<input type="hidden" name="deleteId" value="<%= u.getId() %>"> 
+                			<button type="submit" value="delete" name="action" class="action-icons delete" onclick="setId('<%= u.getId() %>')"><i class="fas fa-trash-alt"></i></button>
                 		</form>
                 	</div>
                 </td>
@@ -316,20 +359,21 @@ label {
     </div>
     
 	<script type="text/javascript">
-		function fillInfo(username, password, fullName, phone, add, age,gender,role) {
+		function fillInfo(id,username, password, fullName, phone, add, age,gender,role) {
+			document.querySelector('input[name="id_up"]').value = id;
 		 	document.querySelector('input[name="username"]').value = username;
 		    document.querySelector('input[name="password"]').value = password;
-		    document.querySelector('select[name="fullName"]').value = fullName;
+		    document.querySelector('input[name="fullName"]').value = fullName;
 		    document.querySelector('input[name="address"]').value = add;
 		    document.querySelector('input[name="age"]').value = age;
-		    document.querySelector('select[name="phonenumber"]').value = phone;
+		    document.querySelector('input[name="phonenumber"]').value = phone;
 		    if(gender === 'Nam'){
 		    	gender = 'male';
 		    }
 		    else gender = 'female';
 		    console.log(gender);
-		    document.querySelector('input[name="gender"]').value = gender;
-		    document.querySelector('input[name="role"]').value = role;
+		    document.querySelector('select[name="gender"]').value = gender;
+		    document.querySelector('select[name="role"]').value = role;
 		    document.querySelector('input[name="username"]').readOnly = true;
 		    document.querySelector('input[name="password"]').readOnly = true;
 		}
@@ -337,6 +381,10 @@ label {
 		    document.querySelector('input[name="username"]').readOnly = false;
 		    document.querySelector('input[name="password"]').readOnly = false;
 		}
+		function setId(id){
+			document.querySelector('input[name="deleteId"]').value = id;
+		}
+		
 
 	</script>
         <%

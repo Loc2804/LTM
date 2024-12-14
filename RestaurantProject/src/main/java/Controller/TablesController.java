@@ -45,6 +45,9 @@ public class TablesController extends HttpServlet {
             case "view":  // Thêm xử lý cho hành động "view"
                 view(request, response);
                 break;
+            case "order":  // Thêm xử lý cho hành động "view"
+            	order(request, response);
+                break;
             default:
                 index(request, response);
                 break;

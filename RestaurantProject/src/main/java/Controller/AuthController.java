@@ -74,7 +74,7 @@ public class AuthController extends HttpServlet {
 					rs.forward(request, response);
 				}
 				else if(user.getRole().getName().equals("staff")) {
-					RequestDispatcher rs = getServletContext().getRequestDispatcher("/WelcomeStaff.jsp");
+					RequestDispatcher rs = getServletContext().getRequestDispatcher("/FoodController?action=index");
 					rs.forward(request, response);
 				}
 			}

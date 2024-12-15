@@ -87,6 +87,23 @@ public class TablesDAO {
         }
         return false;
     }
+    
+    public void updateTableStatus(Long tableId, Long statusId) {
+        // Truy vấn SQL để cập nhật trạng thái bàn
+        String query = "UPDATE tables SET status_id = ? WHERE id = ?";
+        try (Connection conn = getConnection();  // Lấy kết nối đến cơ sở dữ liệu
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            // Thiết lập các tham số cho PreparedStatement
+            pstmt.setLong(1, statusId);  // Trạng thái mới của bàn
+            pstmt.setLong(2, tableId);   // ID của bàn cần cập nhật
+
+            // Thực thi câu lệnh SQL
+            pstmt.executeUpdate();  // Không cần kiểm tra số dòng bị ảnh hưởng nếu trả về void
+        } catch (SQLException e) {
+            System.out.println("Lỗi cập nhật trạng thái bàn: " + e.getMessage());
+        }
+    }
 
     // Xóa bàn dựa trên ID
     public boolean deleteTable(long id) {

@@ -1,31 +1,40 @@
 package Model.BEAN;
 
 public class Tables {
-    private long id;
-    private String number;
-    private int status_id;
+	private long id;
+	private String number;
+	private int status_id;
+	private Status status;
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getNumber() {
-        return number;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    public int getStatus_id() {
-        return status_id;
-    }
+	public int getStatus_id() {
+		return status_id;
+	}
 
-    public void setStatus_id(int status_id) {
-        this.status_id = status_id;
-    }
+	public void setStatus_id(int status_id) {
+		this.status_id = status_id;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 }

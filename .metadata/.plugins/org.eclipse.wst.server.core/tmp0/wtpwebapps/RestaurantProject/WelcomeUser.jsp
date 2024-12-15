@@ -90,7 +90,7 @@
         %>
       <div class="navbar">
        <div class="links">
-           <a href="MainMenu.jsp">Menu</a>
+           <a href="FoodMenuStaff.jsp">Menu</a>
            <a href="OrderTables.jsp">Order Table</a>
        </div>
         <div class="group-btn">
@@ -103,8 +103,8 @@
         %>
         <div class="navbar">
 	       <div class="links">
-	          	<a href="MainMenu.jsp">Menu</a>
-           		<a href="OrderTables.jsp">Order Table</a>
+	          	<a href="FoodMenuStaff.jsp">Menu</a>
+           		<a href="TablesController?action=order">Order Table</a>
 	       </div>
 	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">

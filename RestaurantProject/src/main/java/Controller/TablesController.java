@@ -45,6 +45,9 @@ public class TablesController extends HttpServlet {
             case "view":  // Thêm xử lý cho hành động "view"
                 view(request, response);
                 break;
+            case "order":  // Thêm xử lý cho hành động "view"
+            	order(request, response);
+                break;
             default:
                 index(request, response);
                 break;
@@ -68,6 +71,9 @@ public class TablesController extends HttpServlet {
             case "search":
                 search(request, response);
                 break;
+                case "order":  // Thêm xử lý cho hành động "view"
+                	order(request, response);
+                    break;
             default:
                 response.sendRedirect("TablesController?action=index");
                 break;
@@ -199,6 +205,20 @@ public class TablesController extends HttpServlet {
             response.sendRedirect("TablesController?action=index");  // Nếu không có nhân viên, quay lại danh sách
         }
     }
+    
+ // Xem danh sách bàn
+    private void order(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	List<Tables> tablesList = TablesBO.getAllTables();  // Lấy danh sách tất cả nhân viên
 
+        // Kiểm tra xem có nhân viên nào hay không
+        if (tablesList != null && !tablesList.isEmpty()) {
+            request.setAttribute("tablesList", tablesList);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Order_Table.jsp");  // Chuyển đến trang View.jsp
+            dispatcher.forward(request, response);
+        } else {
+            response.sendRedirect("TablesController?action=index");  // Nếu không có nhân viên, quay lại danh sách
+        }
+    }
 
 }

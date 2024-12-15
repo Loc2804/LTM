@@ -31,16 +31,24 @@ public class TablesBO {
         return dao.updateTable(table);
     }
 
-    // Lấy danh sách tất cả table
-    public static List<Tables> getAllTables() {
-        return dao.getAllTables();
-    }
+//    // Lấy danh sách tất cả table
+//    public static List<Tables> getAllTables() {
+//        return dao.getAllTables();
+//    }
     
  // Lấy danh sách tất cả table
     public static List<Long> getAllTablesId() {
         return dao.getAllTablesId();
     }
-
+    
+ // Lấy danh sách tất cả table
+ 	public static List<Tables> getAllTables() {
+ 		List<Tables> tables = dao.getAllTables();
+ 		for (Tables item : tables) {
+ 			item.setStatus((new StatusBO()).getStatusById(item.getStatus_id()));
+ 		}
+ 		return tables;
+ 	}
     // Lấy thông tin một table dựa trên ID
     public static Tables getTableById(long id) {
         if (!dao.checkExist(id)) {
@@ -61,6 +69,11 @@ public class TablesBO {
             }
         }
         return result;
+    }
+    public static void updateTableStatus(Long tableId, Long statusId) {
+        // Giả sử bạn có một lớp DAO để tương tác với CSDL
+        
+    	dao.updateTableStatus(tableId, statusId);
     }
 
 }

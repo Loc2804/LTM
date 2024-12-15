@@ -121,7 +121,11 @@
        	<a href="ManageStatus.jsp">Manage Status</a>
        	<a href="Index_booking.jsp">Manage Booking</a>
        	<a href="Index_Tables.jsp">Manage Table</a>
+       	<a href="FoodController?action=manager">Manage Food</a> 
+		<a href="OrderController?action=manager">Manage Order</a>
    	</div>
+   	
+   		
      
     
 </body>

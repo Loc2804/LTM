@@ -46,6 +46,9 @@ public class BookingController extends HttpServlet {
             case "search":
             	search(request, response);
                 break;
+            case "order":
+            	order(request, response);
+                break;
             default:
                 index(request, response);
                 break;
@@ -71,6 +74,9 @@ public class BookingController extends HttpServlet {
                 break;
             case "search":
             	search(request, response);
+                break;
+            case "order":
+            	order(request, response);
                 break;
             default:
                 response.sendRedirect("BookingController?action=index");
@@ -115,10 +121,51 @@ public class BookingController extends HttpServlet {
             booking.setTable_id(tableId);
             booking.setStatus_id(statusId);
             booking.setDate(java.sql.Date.valueOf(date));
-
+            updateTableStatus(tableId, statusId);
             BookingBO.create(booking);
             response.sendRedirect("BookingController?action=index");
         }
+    }
+    
+    private void order(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String method = request.getMethod();
+
+        if (method.equalsIgnoreCase("GET")) {
+        	// Lấy danh sách tất cả các bàn từ database qua BO
+            List<Long> tablesList = TablesBO.getAllTablesId();
+
+            request.setAttribute("tablesList", tablesList);
+        	// Lấy danh sách tất cả các booking từ database qua BO
+            List<Booking> bookingsList = BookingBO.getAllBookings();
+         // Đưa danh sách booking vào request
+            request.setAttribute("bookingsList", bookingsList);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("CreateBooking.jsp");
+            dispatcher.forward(request, response);
+        } else if (method.equalsIgnoreCase("POST")) {
+            long userId = Long.parseLong(request.getParameter("user_id"));
+            long tableId = Long.parseLong(request.getParameter("table_id"));
+            long statusId = Long.parseLong(request.getParameter("status_id"));
+            String date = request.getParameter("date");
+
+            Booking booking = new Booking();
+            booking.setUser_id(userId);
+            booking.setTable_id(tableId);
+            booking.setStatus_id(statusId);
+            booking.setDate(java.sql.Date.valueOf(date));
+            updateTableStatus(tableId, statusId);
+            BookingBO.create(booking);
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Order_Table.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+    
+    private void updateTableStatus(Long tableId, Long statusId) {
+        // Giả sử bạn có một lớp DAO để tương tác với CSDL
+        TablesBO tableBO = new TablesBO();
+        tableBO.updateTableStatus(tableId, statusId);
     }
 
     // Cập nhật booking

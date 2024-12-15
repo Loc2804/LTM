@@ -11,6 +11,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
+        overflow: hidden;
     }
     h1{
     	text-align: center;
@@ -81,6 +82,13 @@
 	color: white;
 	margin-top:7px;
 	font-size: 20px;
+	}
+	.img-homepage{
+		width: 100%;
+		height:700px;
+		background: url('https://cdn.pastaxi-manager.onepas.vn/content/uploads/articles/lentkdau/6lidonhahangnencungcapappdatbanchokhach/3.jpg') center center no-repeat;
+		background-size: cover;
+	}
 </style>
 </head>
 <body>
@@ -90,8 +98,9 @@
         %>
       <div class="navbar">
        <div class="links">
-           <a href="FoodMenuStaff.jsp">Menu</a>
-           <a href="OrderTables.jsp">Order Table</a>
+         	<a href="WelcomeUser.jsp">Home Page</a> 
+          	<a href="MenuUser.jsp">Menu</a> 
+           	<a href="OrderTable.jsp">Order Table</a>
        </div>
         <div class="group-btn">
             <a href="Login.jsp">Đăng nhập</a>
@@ -103,8 +112,9 @@
         %>
         <div class="navbar">
 	       <div class="links">
-	          	<a href="FoodMenuStaff.jsp">Menu</a>
-           		<a href="TablesController?action=order">Order Table</a>
+	          	<a href="WelcomeUser.jsp">Home Page</a> 
+          		<a href="MenuUser.jsp">Menu</a> 
+           	<a href="OrderTable.jsp">Order Table</a>
 	       </div>
 	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">
@@ -117,5 +127,8 @@
        <%
         	}
        %>
+       <div class="img-homepage">
+	       
+       </div>
 </body>
 </html>

@@ -185,7 +185,6 @@ a:hover {
             <div class="error-message"><%= errorMessage %></div>
         <% } %>
 
-
         <a href="Register.jsp">-----Sign up-----</a>
     </div>
 </body>

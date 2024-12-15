@@ -7,8 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import Model.BEAN.Food;
 import Model.BEAN.User;
+import Model.BO.FoodBO;
 import Model.BO.RoleBO;
 import Model.BO.StatusBO;
 import Model.BO.TablesBO;
@@ -55,6 +58,8 @@ public class AuthController extends HttpServlet {
 		RoleBO roleBO = new RoleBO();
 		StatusBO statusBO = new StatusBO();
 		TablesBO tableBO = new TablesBO();
+		FoodBO foodBO = new FoodBO();
+		
 		if(action.equals("login")) {
 			if(userBO.checkLogin(username, password)) {
 				String name = userBO.getUserByUsername(username).getFullName();
@@ -63,6 +68,8 @@ public class AuthController extends HttpServlet {
 				request.getSession().setAttribute("listRole", roleBO.getAllRole());
 				request.getSession().setAttribute("listStatus", statusBO.getAllStatus());
 				request.getSession().setAttribute("listTable", tableBO.getAllTables());
+				ArrayList<Food> foodList = foodBO.getAllFood();
+				request.getSession().setAttribute("menu", foodList);
 				request.getSession().setAttribute("name",name);
 				request.getSession().setAttribute("user",user);
 				if(user.getRole().getId() == 1) {

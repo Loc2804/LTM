@@ -132,8 +132,8 @@ h1, h2 {
 
 	<div class="navbar">
 		<div class="links">
-			<a href="FoodController?action=index">Menu</a> <a
-				href="OrderController?action=create">Order Food</a>
+			<a href="FoodController?action=index">Menu</a> 
+			<a href="OrderController?action=create">Order Food</a>
 		</div>
 		<%
 		User user = (User) session.getAttribute("user");

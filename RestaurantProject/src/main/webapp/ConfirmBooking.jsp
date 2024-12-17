@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="Model.BEAN.Booking" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Xóa Booking</title>
+    <title>Xác Nhận Booking</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,14 +46,14 @@
         }
         button {
             cursor: pointer;
-            background-color: #ff4d4d;
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
         }
         button:hover {
-            background-color: #e60000;
+            background-color: #218838;
         }
         a {
             display: block;
@@ -80,13 +80,13 @@
                 <th>User ID</th>
                 <th>Table ID</th>
                 <th>Ngày</th>
-                <th>Status ID</th>
+                <th>Trạng Thái</th>
                 <th>Hành Động</th>
             </tr>
         </thead>
         <tbody>
         <% 
-            ArrayList<Booking> danhSachBooking = (ArrayList<Booking>) request.getAttribute("bookingsList");
+        List<Booking> danhSachBooking = (List<Booking>) request.getAttribute("bookingsList");
             if (danhSachBooking == null || danhSachBooking.isEmpty()) { %>
                 <tr>
                     <td colspan="6" style="text-align: center;">Danh sách booking hiện tại trống</td>
@@ -116,10 +116,15 @@
 						    <%= status %>
 						</td>
                         <td>
-                            <form action="BookingController?action=delete" method="post" style="display: inline;">
-                                <input type="hidden" name="id" value="<%= booking.getId() %>">
-                                <button type="submit">Xóa</button>
-                            </form>
+                            <% if (statusId == 5) { %>
+                                <form action="BookingController?action=confirm" method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<%= booking.getId() %>"> 
+                                    <input type="hidden" name="table_id" value="<%= booking.getTable_id() %>">
+                                    <button type="submit">Xác Nhận</button>
+                                </form>
+                            <% } else { %>
+                                <span style="color: grey;">Không khả dụng</span>
+                            <% } %>
                         </td>
                     </tr>
         <%      } 

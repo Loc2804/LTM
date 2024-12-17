@@ -109,6 +109,9 @@
 						        } else if (statusId == 7) {
 						            status = "Canceled";
 						        }
+						        else if (statusId == 8) {
+						            status = "Finish";
+						        }
 						    %>
 						    <%= status %>
 						</td>

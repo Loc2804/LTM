@@ -47,4 +47,7 @@ public class BookingBO {
     public static List<Booking> searchByCol(String searchBy, String searchString) {
         return dao.searchByCol(searchBy, searchString); // Call the method on the instance of NV_DAO
     }
+    public static List<Booking> getBookingsByUserId(long userId) {
+        return dao.getBookingsByUserId(userId);
+    }
 }

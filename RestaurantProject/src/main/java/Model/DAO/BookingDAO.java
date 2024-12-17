@@ -158,4 +158,34 @@ public class BookingDAO {
         }
         return booking;
     }
+    public  List<Booking> getBookingsByUserId(long userId) {
+        List<Booking> bookingsList = new ArrayList<>(); // Khởi tạo danh sách các booking
+        String query = "SELECT * FROM booking WHERE user_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            // Thiết lập giá trị của userId vào câu lệnh SQL
+            pstmt.setLong(1, userId);
+            
+            // Thực thi câu lệnh và lấy kết quả
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) { // Sử dụng vòng lặp để thêm tất cả các booking vào danh sách
+                    Booking booking = new Booking();
+                    booking.setId(rs.getLong("id"));
+                    booking.setUser_id(rs.getLong("user_id"));
+                    booking.setTable_id(rs.getLong("table_id"));
+                    booking.setDate(rs.getDate("date"));
+                    booking.setStatus_id(rs.getInt("status_id"));
+                    
+                    // Thêm booking vào danh sách
+                    bookingsList.add(booking);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi lấy thông tin booking theo ID: " + e.getMessage());
+        }
+        
+        return bookingsList; // Trả về danh sách các booking
+    }
 }

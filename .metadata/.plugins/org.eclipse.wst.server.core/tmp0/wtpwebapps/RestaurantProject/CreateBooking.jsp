@@ -89,6 +89,7 @@
 			    <option value="5">Waiting</option>
 			    <option value="6">Confirm</option>
 			    <option value="7">Canceled</option>
+			    <option value="8">Finished</option>
 			</select>
 
             <input type="submit" value="Thêm">

@@ -114,7 +114,10 @@
 	       <div class="links">
 	          	<a href="WelcomeUser.jsp">Home Page</a> 
           		<a href="MenuUser.jsp">Menu</a> 
-           	<a href="OrderTable.jsp">Order Table</a>
+           	<a href="TablesController?action=order">Order Table</a>
+           	<a href="BookingController?action=history">Order History</a>
+
+
 	       </div>
 	        <form action="AuthController" method="post">
 	        	<div class="welcome-user">

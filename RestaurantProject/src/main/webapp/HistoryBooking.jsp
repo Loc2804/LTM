@@ -1,15 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-<%@ page import="Model.BEAN.Tables" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="Model.BEAN.User" %>
+<%@page import="Model.BEAN.User"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Model.BEAN.Booking" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Bàn</title>
+    <title>Danh Sách History Booking</title>
     <style>
         body {
         font-family: Arial, sans-serif;
@@ -29,7 +28,7 @@
         }
         th, td {
             padding: 12px 15px;
-            text-align: center;
+            text-align: left;
         }
         th {
             background-color: #007BFF;
@@ -48,6 +47,18 @@
             color: #333;
         }
         
+        .btn-cancel {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .btn-cancel:hover {
+            background-color: #c82333;
+            cursor: pointer;
+        }
         .navbar {
         background-color: #007BFF; /* Màu xanh chủ đạo */
         overflow: hidden;
@@ -171,78 +182,69 @@
        <%
         	}
        %>
-    <h1>Danh Sách Bàn</h1>
+    <h1>Danh Sách Booking</h1>
     <table border="1">
         <thead>
             <tr>
-                <th>ID Bàn</th>
-                <th>Số Bàn</th>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Table ID</th>
+                <th>Ngày Đặt</th>
                 <th>Trạng Thái</th>
-                <th>Hành động</th>
+                <th>Hành Động</th>
             </tr>
         </thead>
         <tbody>
         <%
-            // Lấy thông tin người dùng từ session
-            if (user == null) {
-                out.println("<script>alert('Vui lòng đăng nhập!'); window.location.href='Login.jsp';</script>");
-                return;
-            }
-
-            // Lấy ngày hiện tại
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String currentDate = sdf.format(new Date());
-
-            List<Tables> list = (List<Tables>) request.getAttribute("tablesList");
-            if (list != null) {
-                for (Tables table : list) {
+            ArrayList<Booking> bookings = (ArrayList<Booking>) request.getAttribute("bookingsList");
+            if (bookings != null && !bookings.isEmpty()) {
+                for (Booking booking : bookings) {
         %>
             <tr>
-                <td><%= table.getId() %></td>
-                <td><%= table.getNumber() %></td>
-                <td><%= table.getStatus_id() == 1 ? "Còn Trống" : "Đã Đặt" %></td>
+                <td><%= booking.getId() %></td>
+                <td><%= booking.getUser_id() %></td>
+                <td><%= booking.getTable_id() %></td>
+                <td><%= booking.getDate() %></td>
                 <td>
-                    <% if (table.getStatus_id() == 1) { %>
-                        <!-- Form Đặt Bàn -->
-                        <form action="BookingController?action=order" method="post" onsubmit="return confirmBooking(this);">
-                            <!-- Các input ẩn để truyền các tham số -->
-                            <input type="hidden" name="user_id" value="<%= user.getId() %>">
-                            <input type="hidden" name="table_id" value="<%= table.getId() %>"> 
-                            <input type="hidden" name="status_id" value="5">
-                            <input type="hidden" name="date" value="<%= currentDate %>">
-                            <button type="submit">Đặt Bàn</button>
-                            
-                        </form>
-                    <% } else { %>
-                        <!-- Vô hiệu hóa nút nếu bàn đã được đặt -->
-                        <a class="disabled">Đã Đặt</a>
-                    <% } %>
+                    <% 
+                        long statusId = booking.getStatus_id();
+                        String status = "";
+                        if (statusId == 5) {
+                            status = "Waiting";
+                        } else if (statusId == 6) {
+                            status = "Confirm";
+                        } else if (statusId == 7) {
+                            status = "Canceled";
+                        }
+                    %>
+                    <%= status %>
                 </td>
+                <td>
+                            <% if (statusId == 5) { %>
+                                <form action="BookingController?action=cancel" method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<%= booking.getId() %>"> 
+                                    <input type="hidden" name="table_id" value="<%= booking.getTable_id() %>">
+                                    <button type="submit">Cancel</button>
+                                </form>
+                            <% } else { %>
+                                <span style="color: grey;">Không khả dụng</span>
+                            <% } %>
+                        </td>
             </tr>
         <%
                 }
             } else {
         %>
             <tr>
-                <td colspan="4" style="text-align: center;">Không có dữ liệu</td>
+                <td colspan="6" style="text-align: center;">Không có dữ liệu</td>
             </tr>
         <%
             }
         %>
         </tbody>
     </table>
-    
     <div class="return">
       <a href="WelcomeUser.jsp" >Return</a>
     </div>
-  
-    <script>
-        function confirmBooking(form) {
-            // Hiển thị thông báo thành công
-            alert("Đặt bàn thành công!");
-            // Tiếp tục gửi form
-            return true;
-        }
-    </script>
 </body>
 </html>

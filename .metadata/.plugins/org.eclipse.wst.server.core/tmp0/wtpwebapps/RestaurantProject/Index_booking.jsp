@@ -158,6 +158,7 @@
         <a href="BookingController?action=delete" class="button">Delete Booking</a>
         <!-- Nút Update Booking -->
         <a href="BookingController?action=update" class="button">Update Booking</a>
+        <a href="BookingController?action=confirm" class="button">Confirm Booking</a>
         <!-- Nút Quay Lại -->
         <a href="WelcomeAdmin.jsp" class="button" style="background-color: #007BFF;">Return</a>
     </div>

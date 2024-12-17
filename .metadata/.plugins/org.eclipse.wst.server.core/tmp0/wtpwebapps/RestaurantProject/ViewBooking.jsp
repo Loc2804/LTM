@@ -46,19 +46,25 @@
             font-size: 14px;
             color: #333;
         }
-        a {
-            display: block;
+        .action-btn {
             text-align: center;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #007BFF;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #28a745;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            width: 150px;
+            border-radius: 4px;
+            font-size: 12px;
         }
-        a:hover {
-            background-color: #0056b3;
+        .btn:hover {
+            background-color: #218838;
+        }
+        .btn-disabled {
+            color: gray;
+            background-color: #ccc;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -72,6 +78,7 @@
                 <th>Table ID</th>
                 <th>Ngày Đặt</th>
                 <th>Trạng Thái</th>
+                <th>Hành Động</th>
             </tr>
         </thead>
         <tbody>
@@ -96,17 +103,30 @@
 				        } else if (statusId == 7) {
 				            status = "Canceled";
 				        }
+				        else if (statusId == 8) {
+				            status = "Finish";
+				        }
 				    %>
 				    <%= status %>
 				</td>
-
+                <td>
+                            <% if (statusId == 6) { %>
+                                <form action="BookingController?action=finish" method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<%= booking.getId() %>"> 
+                                    <input type="hidden" name="table_id" value="<%= booking.getTable_id() %>">
+                                    <button type="submit">Finish</button>
+                                </form>
+                            <% } else { %>
+                                <span style="color: grey;">Không khả dụng</span>
+                            <% } %>
+                        </td>
             </tr>
         <%
                 }
             } else {
         %>
             <tr>
-                <td colspan="5" style="text-align: center;">Không có dữ liệu</td>
+                <td colspan="6" style="text-align: center;">Không có dữ liệu</td>
             </tr>
         <%
             }
